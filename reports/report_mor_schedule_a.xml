@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_mor_schedule_a_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="run">
+                <t t-set="data" t-value="run._get_schedule_a_data()"/>
+                <div class="page mor-schedule-a">
+
+                    <style>
+                        .mor-schedule-a {
+                            font-family: Arial, Helvetica, sans-serif;
+                            font-size: 8px;
+                            color: #000;
+                            line-height: 1.2;
+                        }
+                        .mor-schedule-a * {
+                            box-sizing: border-box;
+                        }
+                        .mor-schedule-a .mor-header {
+                            text-align: center;
+                            border: 1px solid black;
+                            padding: 4px 6px;
+                            margin-bottom: 4px;
+                            background-color: #f7f7f7;
+                        }
+                        .mor-schedule-a .mor-header .mor-title {
+                            font-size: 11px;
+                            font-weight: bold;
+                            text-transform: uppercase;
+                            letter-spacing: 0.5px;
+                        }
+                        .mor-schedule-a .mor-header .mor-subtitle {
+                            font-size: 9.5px;
+                            font-weight: bold;
+                            margin-top: 2px;
+                        }
+                        .mor-schedule-a .mor-header .mor-subtext {
+                            font-size: 8px;
+                            color: #333;
+                        }
+                        .mor-schedule-a table.mor-meta {
+                            width: 100%;
+                            border-collapse: collapse;
+                            border: 1px solid black;
+                            margin-bottom: 4px;
+                            font-size: 8px;
+                        }
+                        .mor-schedule-a table.mor-meta td {
+                            border: 1px solid black;
+                            padding: 3px 4px;
+                            vertical-align: middle;
+                        }
+                        .mor-schedule-a table.mor-table {
+                            width: 100%;
+                            table-layout: fixed;
+                            border-collapse: collapse;
+                            border: 1px solid black;
+                            font-size: 8px;
+                            page-break-inside: auto;
+                        }
+                        .mor-schedule-a table.mor-table thead {
+                            display: table-header-group;
+                        }
+                        .mor-schedule-a table.mor-table tr {
+                            page-break-inside: avoid;
+                            page-break-after: auto;
+                        }
+                        .mor-schedule-a table.mor-table th,
+                        .mor-schedule-a table.mor-table td {
+                            border: 1px solid black;
+                            padding: 2px 2px;
+                            text-align: right;
+                            overflow: hidden;
+                        }
+                        .mor-schedule-a table.mor-table th {
+                            background-color: #e8e8e8;
+                            text-align: center;
+                            font-weight: bold;
+                            font-size: 7.5px;
+                            vertical-align: middle;
+                            white-space: normal;
+                            line-height: 1.1;
+                        }
+                        .mor-schedule-a table.mor-table td.text-left {
+                            text-align: left;
+                            white-space: normal;
+                            word-break: break-word;
+                        }
+                        .mor-schedule-a table.mor-table td.text-center {
+                            text-align: center;
+                            white-space: nowrap;
+                        }
+                        .mor-schedule-a table.mor-table td.text-right {
+                            text-align: right;
+                            white-space: nowrap;
+                        }
+                        .mor-schedule-a tr.mor-totals td {
+                            font-weight: bold;
+                            background-color: #f2f2f2;
+                            white-space: nowrap;
+                        }
+                        .mor-schedule-a table.mor-summary {
+                            width: 55%;
+                            border-collapse: collapse;
+                            border: 1px solid black;
+                            margin-top: 8px;
+                            font-size: 8px;
+                            page-break-inside: avoid;
+                        }
+                        .mor-schedule-a table.mor-summary th,
+                        .mor-schedule-a table.mor-summary td {
+                            border: 1px solid black;
+                            padding: 3px 5px;
+                        }
+                        .mor-schedule-a table.mor-summary td.value {
+                            text-align: right;
+                            font-weight: bold;
+                        }
+                        .mor-schedule-a table.mor-signoff {
+                            width: 100%;
+                            border-collapse: collapse;
+                            margin-top: 10px;
+                            font-size: 8px;
+                            page-break-inside: avoid;
+                        }
+                        .mor-schedule-a table.mor-signoff td {
+                            padding: 0;
+                        }
+                        .mor-schedule-a .sig-box {
+                            border: 1px solid black;
+                            padding: 6px 8px;
+                            min-height: 65px;
+                        }
+                        .mor-schedule-a .sig-title {
+                            font-size: 8.5px;
+                            margin-bottom: 4px;
+                        }
+                    </style>
+
+                    <!-- ===================== Header ===================== -->
+                    <div class="mor-header">
+                        <div class="mor-title">Federal Democratic Republic of Ethiopia - Ministry of Revenues (MoR) / Bureau of Revenues</div>
+                        <div class="mor-subtitle">Schedule A - Employment Income Tax and Pension Contribution Declaration</div>
+                        <div class="mor-subtext">(Monthly Declaration of Employment Income Tax Withheld and Public / Private Organizations Employees Pension Contributions)</div>
+                    </div>
+
+                    <!-- Company / Period Meta Table -->
+                    <table class="mor-meta">
+                        <tr>
+                            <td style="width: 28%;">
+                                <b>Employer (Company Name):</b>
+                                <t t-out="data['company_name']"/>
+                            </td>
+                            <td style="width: 14%;">
+                                <b>Company TIN:</b>
+                                <t t-out="data['company_tin']"/>
+                            </td>
+                            <td style="width: 24%;">
+                                <b>Tax Period:</b>
+                                <t t-if="data['tax_period_from']">
+                                    <t t-out="data['tax_period_from']" t-options="{'widget': 'date'}"/>
+                                </t>
+                                <t t-else="">-</t>
+                                to
+                                <t t-if="data['tax_period_to']">
+                                    <t t-out="data['tax_period_to']" t-options="{'widget': 'date'}"/>
+                                </t>
+                                <t t-else="">-</t>
+                            </td>
+                            <td style="width: 12%;">
+                                <b>Region:</b>
+                                <t t-out="data['company_region']"/>
+                            </td>
+                            <td style="width: 12%;">
+                                <b>Zone/Woreda:</b>
+                                <t t-out="data['company_zone']"/>
+                            </td>
+                            <td style="width: 10%;">
+                                <b>Phone:</b>
+                                <t t-out="data['company_phone']"/>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <!-- ================ Section 2: Employee Table ================ -->
+                    <table class="mor-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 2.5%;">S/N</th>
+                                <th style="width: 6.5%;">TIN</th>
+                                <th style="width: 13%;">Employee Name</th>
+                                <th style="width: 6%;">Start Date</th>
+                                <th style="width: 6.5%;">Basic<br/>Salary</th>
+                                <th style="width: 6%;">Non-Taxable<br/>Allowance</th>
+                                <th style="width: 6%;">Taxable<br/>Allowance</th>
+                                <th style="width: 5%;">Overtime</th>
+                                <th style="width: 6.5%;">Taxable<br/>Income</th>
+                                <th style="width: 6.5%;">Gross<br/>Salary</th>
+                                <th style="width: 6.5%;">Income Tax<br/>Withheld</th>
+                                <th style="width: 6%;">Pension 11%<br/>(Employer)</th>
+                                <th style="width: 6%;">Pension 7%<br/>(Employee)</th>
+                                <th style="width: 5.5%;">Other<br/>Deductions</th>
+                                <th style="width: 6%;">Total<br/>Deductions</th>
+                                <th style="width: 6.5%;">Net Pay</th>
+                                <th style="width: 4.5%;">Signature</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-set="counter" t-value="0"/>
+                            <t t-foreach="data['lines']" t-as="line">
+                                <t t-set="counter" t-value="counter + 1"/>
+                                <tr>
+                                    <td class="text-center"><t t-out="line.get('sn', counter)"/></td>
+                                    <td class="text-center"><t t-out="line['employee_tin']"/></td>
+                                    <td class="text-left"><t t-out="line['employee_name']"/></td>
+                                    <td class="text-center">
+                                        <t t-if="line['start_date']">
+                                            <t t-out="line['start_date']" t-options="{'widget': 'date'}"/>
+                                        </t>
+                                        <t t-else="">-</t>
+                                    </td>
+                                    <td class="text-right"><t t-out="line['basic_salary']" t-options="{'widget': 'float', 'precision': 2}"/></td>
+                                    <td class="text-right"><t t-out="line['non_taxable_allowance']" t-options="{'widget': 'float', 'precision': 2}"/></td>
+                                    <td class="text-right"><t t-out="line['taxable_allowance']" t-options="{'widget': 'float', 'precision': 2}"/></td>
+                                    <td class="text-right"><t t-out="line['overtime']" t-options="{'widget': 'float', 'precision': 2}"/></td>
+                                    <td class="text-right"><t t-out="line['taxable_income']" t-options="{'widget': 'float', 'precision': 2}"/></td>
+                                    <td class="text-right"><t t-out="line['gross_salary']" t-options="{'widget': 'float', 'precision': 2}"/></td>
+                                    <td class="text-right"><t t-out="line['income_tax']" t-options="{'widget': 'float', 'precision': 2}"/></td>
+                                    <td class="text-right"><t t-out="line['employer_pension']" t-options="{'widget': 'float', 'precision': 2}"/></td>
+                                    <td class="text-right"><t t-out="line['employee_pension']" t-options="{'widget': 'float', 'precision': 2}"/></td>
+                                    <td class="text-right"><t t-out="line['other_deductions']" t-options="{'widget': 'float', 'precision': 2}"/></td>
+                                    <td class="text-right"><t t-out="line['total_deductions']" t-options="{'widget': 'float', 'precision': 2}"/></td>
+                                    <td class="text-right"><t t-out="line['net_pay']" t-options="{'widget': 'float', 'precision': 2}"/></td>
+                                    <td/>
+                                </tr>
+                            </t>
+                            <!-- Totals Row -->
+                            <tr class="mor-totals">
+                                <td class="text-center" colspan="4">TOTAL</td>
+                                <td class="text-right"><t t-out="data['totals']['basic_salary']" t-options="{'widget': 'float', 'precision': 2}"/></td>
+                                <td class="text-right"><t t-out="data['totals']['non_taxable_allowance']" t-options="{'widget': 'float', 'precision': 2}"/></td>
+                                <td class="text-right"><t t-out="data['totals']['taxable_allowance']" t-options="{'widget': 'float', 'precision': 2}"/></td>
+                                <td class="text-right"><t t-out="data['totals']['overtime']" t-options="{'widget': 'float', 'precision': 2}"/></td>
+                                <td class="text-right"><t t-out="data['totals']['taxable_income']" t-options="{'widget': 'float', 'precision': 2}"/></td>
+                                <td class="text-right"><t t-out="data['totals']['gross_salary']" t-options="{'widget': 'float', 'precision': 2}"/></td>
+                                <td class="text-right"><t t-out="data['totals']['income_tax']" t-options="{'widget': 'float', 'precision': 2}"/></td>
+                                <td class="text-right"><t t-out="data['totals']['employer_pension']" t-options="{'widget': 'float', 'precision': 2}"/></td>
+                                <td class="text-right"><t t-out="data['totals']['employee_pension']" t-options="{'widget': 'float', 'precision': 2}"/></td>
+                                <td class="text-right"><t t-out="data['totals']['other_deductions']" t-options="{'widget': 'float', 'precision': 2}"/></td>
+                                <td class="text-right"><t t-out="data['totals']['total_deductions']" t-options="{'widget': 'float', 'precision': 2}"/></td>
+                                <td class="text-right"><t t-out="data['totals']['net_pay']" t-options="{'widget': 'float', 'precision': 2}"/></td>
+                                <td/>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- ================ Section 3: Summary ================ -->
+                    <table class="mor-summary">
+                        <thead>
+                            <tr>
+                                <th colspan="2" style="text-align: center; font-weight: bold; background-color: #e8e8e8;">
+                                    Section 3 - Summary of Declaration
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="width: 70%;">Total Number of Employees</td>
+                                <td class="value" style="width: 30%;"><t t-out="data['employee_count']"/></td>
+                            </tr>
+                            <tr>
+                                <td>Total Taxable Income (<t t-out="data['currency_symbol']"/>)</td>
+                                <td class="value">
+                                    <t t-out="data['totals']['taxable_income']" t-options="{'widget': 'float', 'precision': 2}"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Total Income Tax Withheld (<t t-out="data['currency_symbol']"/>)</td>
+                                <td class="value">
+                                    <t t-out="data['totals']['income_tax']" t-options="{'widget': 'float', 'precision': 2}"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Total Pension Contribution (Employee 7% + Employer 11%) (<t t-out="data['currency_symbol']"/>)</td>
+                                <td class="value">
+                                    <t t-out="data['totals']['total_pension']" t-options="{'widget': 'float', 'precision': 2}"/>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- ================ Section: Sign-off ================ -->
+                    <table class="mor-signoff">
+                        <tr>
+                            <td style="width: 48%; vertical-align: top;">
+                                <div class="sig-box">
+                                    <div class="sig-title"><b>Prepared By (Accountant / HR Officer):</b></div>
+                                    <div style="margin-top: 6px;">Name: _____________________________________________</div>
+                                    <div style="margin-top: 6px;">Title: ______________________________________________</div>
+                                    <div style="margin-top: 6px;">Signature: ______________________ Date: ______________</div>
+                                </div>
+                            </td>
+                            <td style="width: 4%;"></td>
+                            <td style="width: 48%; vertical-align: top;">
+                                <div class="sig-box">
+                                    <div class="sig-title"><b>Taxpayer Certification (Authorized Representative):</b></div>
+                                    <div style="margin-top: 3px; font-style: italic; font-size: 7.5px;">
+                                        I hereby declare that the information given on this declaration is true, complete and correct.
+                                    </div>
+                                    <div style="margin-top: 6px;">Name: _____________________________________________</div>
+                                    <div style="margin-top: 6px;">Signature: ______________________ Date: ______________</div>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+
+                </div>
+            </t>
+        </t>
+    </template>
+
+</odoo>

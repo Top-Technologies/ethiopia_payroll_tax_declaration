@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_schedule_a_export_wizard_user,schedule.a.export.wizard.user,model_schedule_a_export_wizard,hr_payroll.group_hr_payroll_user,1,1,1,1
+access_schedule_a_export_wizard_manager,schedule.a.export.wizard.manager,model_schedule_a_export_wizard,hr_payroll.group_hr_payroll_manager,1,1,1,1
+access_schedule_a_export_wizard_base,schedule.a.export.wizard.base,model_schedule_a_export_wizard,base.group_user,1,1,1,1
+

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Custom Paper Format: A4 Landscape with compact margins -->
+    <record id="paperformat_mor_schedule_a" model="report.paperformat">
+        <field name="name">MoR Schedule A (A4 Landscape)</field>
+        <field name="format">A4</field>
+        <field name="orientation">Landscape</field>
+        <field name="margin_top">8</field>
+        <field name="margin_bottom">8</field>
+        <field name="margin_left">6</field>
+        <field name="margin_right">6</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">0</field>
+        <field name="dpi">90</field>
+    </record>
+
+    <!-- Report Action bound to hr.payslip.run -->
+    <record id="action_report_mor_schedule_a" model="ir.actions.report">
+        <field name="name">Schedule A - Employment Income Tax Declaration</field>
+        <field name="model">hr.payslip.run</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">ethiopia_payroll_tax_declaration.report_mor_schedule_a_template</field>
+        <field name="report_file">ethiopia_payroll_tax_declaration.report_mor_schedule_a_template</field>
+        <field name="print_report_name">'Schedule A - %s' % (object.name or '')</field>
+        <field name="paperformat_id" ref="paperformat_mor_schedule_a"/>
+        <field name="binding_model_id" ref="hr_payroll.model_hr_payslip_run"/>
+        <field name="binding_type">report</field>
+    </record>
+
+</odoo>

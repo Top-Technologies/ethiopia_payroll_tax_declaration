@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Payslip Batch Form View Inheritance -->
+    <record id="hr_payslip_run_form_inherit_mor_schedule_a" model="ir.ui.view">
+        <field name="name">hr.payslip.run.form.mor.schedule.a</field>
+        <field name="model">hr.payslip.run</field>
+        <field name="inherit_id" ref="hr_payroll.hr_payslip_run_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button name="action_print_schedule_a_tax_report"
+                        string="Print Schedule A (Tax &amp; Pension)"
+                        type="object"
+                        class="btn-primary"
+                        icon="fa-print"/>
+                <button name="action_open_erca_wizard"
+                        string="ERCA"
+                        type="object"
+                        class="btn-primary"
+                        icon="fa-file-excel-o"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Individual Payslip Form View Inheritance -->
+    <record id="hr_payslip_form_inherit_mor_schedule_a" model="ir.ui.view">
+        <field name="name">hr.payslip.form.mor.schedule.a</field>
+        <field name="model">hr.payslip</field>
+        <field name="inherit_id" ref="hr_payroll.view_hr_payslip_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button name="action_open_erca_wizard"
+                        string="ERCA"
+                        type="object"
+                        class="btn-secondary"
+                        icon="fa-file-excel-o"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
