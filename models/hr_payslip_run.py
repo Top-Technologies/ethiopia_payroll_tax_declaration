@@ -14,16 +14,16 @@ except ImportError:
 # Each report key maps to the primary rule code followed by common variations.
 RULE_CODE_MAP = {
     "basic_salary": ("BASIC", "BASE"),
-    "non_taxable_allowance": ("NT_ALLOW", "NON_TAXABLE_ALLOWANCE", "NTA"),
-    "taxable_allowance": ("TA_ALLOW", "TAXABLE_ALLOWANCE", "TA"),
-    "overtime": ("OT", "OVERTIME"),
-    "taxable_income": ("GROSS_TAXABLE", "TAXABLE", "TAXABLE_GROSS"),
+    "non_taxable_allowance": ("NT_ALLOW", "NON_TAXABLE_ALLOWANCE", "NTA", "NTAL", "TR"),
+    "taxable_allowance": ("TA_ALLOW", "TAXABLE_ALLOWANCE", "TA", "TAAL", "SALES_COMMISSION"),
+    "overtime": ("OT", "OVERTIME", "OT1.5", "OT1.75", "OT2.00", "OT2.5"),
+    "taxable_income": ("GROSS_TAXABLE", "TAXABLE", "TAXABLE_GROSS", "TAXG"),
     "gross_salary": ("GROSS", "GROSS_SALARY"),
-    "income_tax": ("IIT", "IT", "TAX", "PAYE", "INCOME_TAX"),
-    "employer_pension": ("PENS_11", "PENSION_11", "PENSION_EMPLOYER", "PENS_EMP"),
-    "employee_pension": ("PENS_7", "PENSION_7", "PENSION_EMPLOYEE", "PENS_EE"),
-    "other_deductions": ("OTHER_DED", "OTHER_DEDUCTION", "DEDUCTION"),
-    "total_deductions": ("TOTAL_DED", "TOTAL_DEDUCTION", "DEDUCTIONS"),
+    "income_tax": ("IIT", "IT", "TAX", "PAYE", "INCOME_TAX", "INCTAX"),
+    "employer_pension": ("PENS_11", "PENSION_11", "PENSION_EMPLOYER", "PENS_EMP", "PEN11"),
+    "employee_pension": ("PENS_7", "PENSION_7", "PENSION_EMPLOYEE", "PENS_EE", "PEN7"),
+    "other_deductions": ("OTHER_DED", "OTHER_DEDUCTION", "DEDUCTION", "SLOF", "CostS", "PENALITY"),
+    "total_deductions": ("TOTAL_DED", "TOTAL_DEDUCTION", "DEDUCTIONS", "TOTALD"),
     "net_pay": ("NET", "NET_SALARY"),
 }
 
@@ -250,7 +250,7 @@ class HrPayslipRun(models.Model):
         }
 
     def _get_employee_tin(self, employee):
-        """Retrieve TIN from employee_id.tin or employee_id.identification_id."""
+        """Retrieve TIN from employee_id.tin, employee_id.tin_no, or employee_id.identification_id."""
         if not employee:
             return ""
         if hasattr(employee, "_fields") and "tin" in employee._fields and employee.tin:
@@ -258,6 +258,9 @@ class HrPayslipRun(models.Model):
         tin = getattr(employee, "tin", None)
         if tin:
             return str(tin).strip()
+        tin_no = getattr(employee, "tin_no", None)
+        if tin_no:
+            return str(tin_no).strip()
         ident = getattr(employee, "identification_id", None)
         if ident:
             return str(ident).strip()
